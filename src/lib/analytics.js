@@ -1,20 +1,20 @@
-export const trackDownload = async (sessionId, platform) => {
+export async function trackDownload(productId) {
   try {
     const response = await fetch('/api/track-download', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
-        sessionId,
-        platform
-      }),
+      body: JSON.stringify({ productId }),
     });
-
+    
+    if (!response.ok) {
+      console.error('Failed to track download');
+    }
+    
     return await response.json();
   } catch (error) {
     console.error('Error tracking download:', error);
-    // Don't throw error to avoid blocking download
     return { success: false };
   }
-};
+}
